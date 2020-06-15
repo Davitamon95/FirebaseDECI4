@@ -2,8 +2,10 @@ package com.example.firebaseauthproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -55,9 +57,9 @@ public class SignInActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 8) {
-                                        Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Password must be more than 8 digit", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
@@ -74,6 +76,7 @@ public class SignInActivity extends AppCompatActivity {
         Intent inent = new Intent(this, SignUpActivity.class);
         startActivity(inent);
     }
+
     public void NavigateForgetMyPassword(View v) {
         Intent inent = new Intent(this, ResetPasswordActivity.class);
         startActivity(inent);

@@ -3,8 +3,10 @@ package com.example.firebaseauthproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    EditText SignUpMail,SignUpPass;
+    EditText SignUpMail, SignUpPass;
     Button SignUpButton;
     private FirebaseAuth auth;
 
@@ -30,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         SignUpMail = findViewById(R.id.SignUpMail);
         SignUpPass = findViewById(R.id.SignUpPass);
-        auth=FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         SignUpButton = (Button) findViewById(R.id.SignUpButton);
 
         SignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -39,38 +41,37 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = SignUpMail.getText().toString();
                 String pass = SignUpPass.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(getApplicationContext(),"Please enter your E-mail address",Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(getApplicationContext(), "Please enter your E-mail address", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(TextUtils.isEmpty(pass)){
-                    Toast.makeText(getApplicationContext(),"Please enter your Password",Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(pass)) {
+                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_LONG).show();
                 }
-                if (pass.length() == 0){
-                    Toast.makeText(getApplicationContext(),"Please enter your Password",Toast.LENGTH_LONG).show();
+                if (pass.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_LONG).show();
                 }
-                if (pass.length()<8){
-                    Toast.makeText(getApplicationContext(),"Password must be more than 8 digit",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    auth.createUserWithEmailAndPassword(email,pass)
+                if (pass.length() < 8) {
+                    Toast.makeText(getApplicationContext(), "Password must be more than 8 digit", Toast.LENGTH_LONG).show();
+                } else {
+                    auth.createUserWithEmailAndPassword(email, pass)
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                                     if (!task.isSuccessful()) {
-                                        Toast.makeText(SignUpActivity.this, "ERROR",Toast.LENGTH_LONG).show();
-                                    }
-                                    else {
+                                        Toast.makeText(SignUpActivity.this, "ERROR", Toast.LENGTH_LONG).show();
+                                    } else {
                                         startActivity(new Intent(SignUpActivity.this, EditProfileActivity.class));
                                         finish();
                                     }
                                 }
-                            });}
+                            });
+                }
             }
         });
     }
 
-    public void navigate_sign_in(View v){
+    public void navigate_sign_in(View v) {
         Intent inent = new Intent(this, SignInActivity.class);
         startActivity(inent);
     }

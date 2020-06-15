@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,7 +28,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class ProfileActivity  extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private TextView profileNameTextView, profileSurnameTextView, profilePhonenoTextView;
@@ -41,7 +43,7 @@ public class ProfileActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        editTextName = (EditText)findViewById(R.id.et_username);
+        editTextName = (EditText) findViewById(R.id.et_username);
         profilePicImageView = findViewById(R.id.profile_pic_imageView);
         profileNameTextView = findViewById(R.id.profile_name_textView);
         profileSurnameTextView = findViewById(R.id.profile_surname_textView);
@@ -61,27 +63,29 @@ public class ProfileActivity  extends AppCompatActivity {
                 Picasso.get().load(uri).fit().centerInside().into(profilePicImageView);
             }
         });
-        if (firebaseAuth.getCurrentUser() == null){
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
-            startActivity(new Intent(getApplicationContext(),SignInActivity.class));
+            startActivity(new Intent(getApplicationContext(), SignInActivity.class));
         }
-        final FirebaseUser user=firebaseAuth.getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange( DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 Userinformation userProfile = dataSnapshot.getValue(Userinformation.class);
                 profileNameTextView.setText(userProfile.getUserName());
                 profileSurnameTextView.setText(userProfile.getUserSurname());
                 profilePhonenoTextView.setText(userProfile.getUserPhoneno());
-                textViewemailname=(TextView)findViewById(R.id.textViewEmailAdress);
+                textViewemailname = (TextView) findViewById(R.id.textViewEmailAdress);
                 textViewemailname.setText(user.getEmail());
             }
+
             @Override
-            public void onCancelled( DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     public void buttonClickedEditName(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_name, null);
@@ -102,8 +106,8 @@ public class ProfileActivity  extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String name = etUsername.getText().toString();
                 String surname = profileSurnameTextView.getText().toString();
-                String phoneno =  profilePhonenoTextView.getText().toString();
-                Userinformation userinformation = new Userinformation(name,surname, phoneno);
+                String phoneno = profilePhonenoTextView.getText().toString();
+                Userinformation userinformation = new Userinformation(name, surname, phoneno);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).setValue(userinformation);
                 databaseReference.child(user.getUid()).setValue(userinformation);
@@ -113,6 +117,7 @@ public class ProfileActivity  extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
     public void buttonClickedEditSurname(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_surname, null);
@@ -134,8 +139,8 @@ public class ProfileActivity  extends AppCompatActivity {
 
                 String name = profileNameTextView.getText().toString();
                 String surname = etUserSurname.getText().toString();
-                String phoneno =  profilePhonenoTextView.getText().toString();
-                Userinformation userinformation = new Userinformation(name,surname, phoneno);
+                String phoneno = profilePhonenoTextView.getText().toString();
+                Userinformation userinformation = new Userinformation(name, surname, phoneno);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).setValue(userinformation);
                 databaseReference.child(user.getUid()).setValue(userinformation);
@@ -145,6 +150,7 @@ public class ProfileActivity  extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
     }
+
     public void buttonClickedEditPhoneNo(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.layout_custom_dialog_edit_phoneno, null);
@@ -165,8 +171,8 @@ public class ProfileActivity  extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String name = profileNameTextView.getText().toString();
                 String surname = profileSurnameTextView.getText().toString();
-                String phoneno =  etUserPhoneno.getText().toString();
-                Userinformation userinformation = new Userinformation(name,surname, phoneno);
+                String phoneno = etUserPhoneno.getText().toString();
+                Userinformation userinformation = new Userinformation(name, surname, phoneno);
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 databaseReference.child(user.getUid()).setValue(userinformation);
                 databaseReference.child(user.getUid()).setValue(userinformation);
@@ -177,7 +183,7 @@ public class ProfileActivity  extends AppCompatActivity {
         dialog.show();
     }
 
-    public void navigateLogOut(View v){
+    public void navigateLogOut(View v) {
         FirebaseAuth.getInstance().signOut();
         Intent inent = new Intent(this, MainActivity.class);
         startActivity(inent);
